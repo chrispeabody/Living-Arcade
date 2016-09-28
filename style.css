@@ -1,0 +1,63 @@
+/* style.css
+   Chris Peabody
+   Living Arcade */
+
+body {
+	background: black;
+	color: white;
+}
+
+.wrapper {
+	width: 80%;
+	margin: 4% auto;
+
+	position: relative;
+	display: block;
+}
+
+.wrapper:after {
+	display: block;
+	clear: both;
+	content: "";
+	height: 0;
+	overflow: hidden;
+}
+
+.ads {
+	width: 15%;
+	height: 100%;
+	padding: 2%;
+	margin-right: 1%;
+
+	position: absolute;
+	display: block;
+	float: left;
+	
+	background: #202020;
+}
+
+.mainSection {
+	width: 76%;
+	padding: 2%;
+
+	position: relative;
+	display: block;
+	float: right;
+	
+	background: #101010;
+}
+
+.content {	
+	max-height: 10%;
+	padding: 5px;
+
+	position: relative;
+
+	border: 1px solid red;
+	overflow: hidden;
+}
+
+.content:hover {
+	min-height: auto;
+	max-height: 100%;
+}
