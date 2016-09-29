@@ -3,8 +3,14 @@
    Living Arcade */
 
 body {
-	background: rgb(8, 8, 8);
-	color: rgb(255, 240, 200);
+	/*background: rgb(0, 0, 0);*/
+	background:  #2A231C; /* 201812 */
+	background: -webkit-radial-gradient(#2F2821, #000000);
+	background:    -moz-radial-gradient(#2F2821, #000000);
+	background:         radial-gradient(#2F2821, #000000);
+
+	color: #A4C668; /* calming mint #A4C668*/
+
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	font-size: 14px;
 }
@@ -50,7 +56,7 @@ body {
 	display: block;
 	float: left;
 	
-	background: rgb(40, 20, 20);
+	background: #2D251F;
 }
 
 .mainSection {
@@ -62,7 +68,10 @@ body {
 	display: block;
 	float: right;
 	
-	background:  rgb(20, 10, 10);
+	background:  #E3BE91;
+	background: -webkit-linear-gradient(#84664A, #442916);
+	background:    -moz-linear-gradient(#84664A, #442916);
+	background:         linear-gradient(#84664A, #442916);
 }
 
 .content {
@@ -70,8 +79,13 @@ body {
 
 	position: relative;
 
-	border: 1px solid red;
+	border: 1px solid #1D3D15;
 	overflow: hidden;
+
+	background:  #2D251F;
+	background: -webkit-linear-gradient(#070505, #2D251F);
+	background:    -moz-linear-gradient(#070505, #2D251F);
+	background:         linear-gradient(#070505, #2D251F);
 }
 
 .sectionHead {
@@ -85,7 +99,7 @@ body {
 }
 
 .gameframe {
-	border: 1px solid red;
+	border: 1px solid #1D3D15;
 	width: 100px;
 	height: 130px;
 	float: left;
