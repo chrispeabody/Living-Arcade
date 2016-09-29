@@ -7,9 +7,25 @@ body {
 	color: white;
 }
 
-.wrapper {
+.titlebox {
 	width: 80%;
+	min-width: 800px;
+	height: 10%;
+	min-height: 100px;
 	margin: 4% auto;
+	margin-top: 0%;
+	margin-bottom: 1%;
+
+	font: Impact;
+	font-size: 40px;
+	text-align: center;
+}
+
+.wrapper {
+	width: 60%;
+	min-width: 800px;
+	margin: 4% auto;
+	margin-top: 0%;
 
 	position: relative;
 	display: block;
@@ -47,8 +63,7 @@ body {
 	background: #101010;
 }
 
-.content {	
-	max-height: 10%;
+.content {
 	padding: 5px;
 
 	position: relative;
@@ -57,7 +72,6 @@ body {
 	overflow: hidden;
 }
 
-.content:hover {
-	min-height: auto;
-	max-height: 100%;
+#news {
+	height: 150px;
 }
