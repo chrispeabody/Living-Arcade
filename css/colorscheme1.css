@@ -11,7 +11,7 @@ body {
 	color: #A4C668; /* calming mint #A4C668*/
 }
 
-.ads {
+.links {
 	background: #2D251F;
 }
 
@@ -24,11 +24,6 @@ body {
 
 .content {
 	border: 1px solid #1D3D15;
-
-	background:  #2D251F;
-	background: -webkit-linear-gradient(#070505, #2D251F);
-	background:    -moz-linear-gradient(#070505, #2D251F);
-	background:         linear-gradient(#070505, #2D251F);
 }
 
 .gameframe {
