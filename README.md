@@ -4,18 +4,20 @@ project is as the very beginning stages.
 
 TODO
 
-GOAL 1: Finish the basic website layout
-- Choose good colors for the sections
-- Add new games section to homepage
-- make both columns in homepage have the same length
+GOAL 1: Finish the basic website layout/functionality
+- Multiple pages which link to one another
+- Basic information on each page
+- Streamline the layout as much as possible
 
-GOAL 2: Make the layout functional
-- Add tabs to the top of the homepage
-- Choose whether to add new pages, or use javascript functionaility to dynamically change
-	what is being displayed on the page when a tab is clicked. Which is better?
-- Fill out additional pages
-- Make blog-like section to post news, and hook homepage box to it
-- More I probably missed
+GOAL 2: Create account system
+- Username/password
+- Admin abilities
+- Database
+- Make sure it's secure
 
-GOAL 3: The EA
+GOAL 3: Get blog/news system up and running
+- Admin can post/delete blog items
+- Main menu should auto link to blog
+
+GOAL ?: The EA and related items
 - Will flesh this out more when we come to it.

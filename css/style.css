@@ -84,6 +84,9 @@ body {
 	text-align: center;
 	background: rgba(10, 10, 10, 0.3);
 	margin: 2px;
+	text-decoration: none;
+
+	cursor: pointer;
 }
 
 .link:hover{
