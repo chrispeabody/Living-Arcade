@@ -32,7 +32,7 @@ body {
 	width: 150;
 	padding: 10;
 
-	border-radius: 10px;
+	border-radius: 12px;
 
 	position: fixed;
 }
@@ -42,7 +42,7 @@ body {
 	padding: 20px;
 	padding-top: 1px; /* This doesn't feel right */
 
-	border-radius: 10px;
+	border-radius: 12px;
 
 	position: relative;
 }
@@ -52,10 +52,10 @@ body {
 
 	position: relative;
 
-	border-radius: 10px;
+	border-radius: 12px;
 	overflow: hidden;
 
-	background: rgba(10, 10, 10, 0.3);
+	background: rgba(10, 10, 10, 0.6);
 }
 
 .sectionHead {
@@ -82,7 +82,7 @@ body {
 .link {
 	border-radius: 10px;
 	text-align: center;
-	background: rgba(10, 10, 10, 0.3);
+	background: rgba(10, 10, 10, 0.5);
 	margin: 2px;
 	text-decoration: none;
 
@@ -90,5 +90,5 @@ body {
 }
 
 .link:hover{
-	background: rgba(10, 10, 10, 0.5);
+	background: rgba(10, 10, 10, 0.6);
 }
