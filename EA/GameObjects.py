@@ -1,11 +1,15 @@
 import random
 
-class Game(self):
+#TODO
+# 1. Figure out what the action set looks like for this project.
+
+class Game(object):
     Fitness = None
     Score = 0
 
     #Basic Properties to create a game, everything else will be generated later
     def __init__(self, OffScreenEffect, NumActionButtons, Score):
+        self.ID = random.randint(0,2**(128)) #Sample Space so big collisions aren't a concern
         self.OffScreenEffect = OffScreenEffect
         self.NumActionButtons = NumActionButtons
         self.Score = Score
@@ -27,45 +31,69 @@ class Game(self):
         self.Fitness = fitness
 
 
-class GameObject(self):
+class GameObject(object):
     Fitness = 0
 
-    #All buttons saved as variables
-    Up = None
-    Left = None
-    Down = None
-    Right = None
-    A1 = None
-    A2 = None
-    A3 = None
-    A4 = None
+    #All buttons saved as variables with an empty action set
+    Up = []
+    Left = []
+    Down = []
+    Right = []
+    A1 = []
+    A2 = []
+    A3 = []
+    A4 = []
 
-    def __init__(self, HP, Shape, Color, Opacity, Col_C, Col_S, Col_T, Col_X, Col_P, NumActionButtons, Game):
+    #All Collisions saved as variables with an empty action set
+    Col_C = [] #Collision with Circles
+    Col_S = [] #Collision with Squares
+    Col_T = [] #etc.
+    Col_X = []
+    Col_P = []
+
+    def __init__(self, Name, HP, Shape, Color, Opacity, NumActionButtons):
+        self.Name = Name
         self.HP = HP
         self.Shape = Shape
         self.Color = Color
         self.Opacity = Opacity
-        self.Col_C = Col_C #Collision with Circles
-        self.Col_S = Col_S #Collision with Squares
-        self.Col_T = Col_T #Etc.
-        self.Col_X = Col_X
-        self.Col_P = Col_P
-        self.Game = Game
-        GenerateActionSet(NumActionButtons)
 
-    def GenerateActionSet(self, NumAct):
+    def GenerateReactions(self, NumAct):
         #List of all buttons
-        ButtonSet = [self.Up, self.Left, self.Right, self.Down, self.A1, self.A2, self.A3, self.A4]
-        ActionSet = ["Game.Score += " + str(random.randint(0,10)), "Self.Destroy()"]
-        #Need to work on unity syntax before finishing this
+        #ButtonValues = [Up, Left, Down, Right, A1, A2, A3, A4]
+        ButtonReactions = [None, None, None, None, None, None, None, None]
 
+        # VVV THIS IS THE PRIORITY VVV
+        ActionSet = [["Game.Score += " + str(random.randint(0,10))], ["Self.Destroy()"]]
+        # ^^^ NEED TO FIGURE OUT WHAT THE ACTION SET LOOKS LIKE ^^^
+
+        #While loop which ensures we pick different values each time
+        prev = -1
         for i in range(NumAct):
-            k = random.randrange(0,len(ButtonSet)-1)
+            k = prev
+            while(k == prev):
+                k = random.randint(0,len(ButtonReactions)-1)
             j = random.choice(ActionSet)
-            ButtonSet[k] = j
+            ButtonReactions[k] = j
+            prev = k
+
+        self.Up, self.Left, self.Down, self.Right, self.A1, self.A2, self.A3, self.A4 = ButtonReactions
 
 
-    #TODO: Function to set individual action, to allow for easy crossover
+        #CollisionReactions = [Col_C, Col_S, Col_T, Col_X, Col_P]
+        CollisionReactions = [[], [], [], [], []]
+        #total number of reactions in range [1, 8]
+        i = random.randint(1,8)
+
+        #Picks a random Collision Type and a Random action
+        #Then adds the action to the collision's action set
+        #There may be some actions without a reaction, and some with multiple reactions
+        for j in range(i):
+            k = random.randint(0,len(CollisionReactions)-1)
+            j = random.choice(ActionSet)
+            CollisionReactions[k] += j
+
+        self.Col_C, self.Col_S, self.Col_T, self.Col_X, self.Col_P = CollisionReactions
 
     def SetFitness(self, fitness):
         self.Fitness = fitness
