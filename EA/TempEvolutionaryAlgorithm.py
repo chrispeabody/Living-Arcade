@@ -1,5 +1,6 @@
 from GameObjects import *
 import random, json
+from copy import deepcopy
 
 def InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP):
     population = []
@@ -45,15 +46,13 @@ def RecombineGameObject(p1, p2):
     #Average of the RGB values
     Color = ((p1.Color[0]+p2.Color[0])/2, (p1.Color[1]+p2.Color[1])/2, (p1.Color[2]+p2.Color[2])/2)
 
-    print(len(p1.Triggers), len(p2.Triggers))
-
     MaxTriggers = len(max(p1,p2).Triggers)
 
     #Average of Opacity
     Opacity = (p1.Opacity + p2.Opacity)/2
 
-    tmp1 = p1.Triggers
-    tmp2 = p2.Triggers
+    tmp1 = deepcopy(p1.Triggers)
+    tmp2 = deepcopy(p2.Triggers)
 
     #Finds actions the two objects have in common, and ensures that at least one of the reactions for said action is passed on
     for i in tmp1:
@@ -86,14 +85,16 @@ def RecombineGameObject(p1, p2):
         fm = 0.5
     NumIterations = random.randint(0, MaxTriggers)
     while(len(FinalTrigList) < NumIterations):
-        if(random.random() <= p1.Fitness/fm):
+        if(random.random() <= p1.Fitness/fm and len(tmp1) != 0):
             a = random.choice(tmp1)
             FinalTrigList.append(a)
             tmp1.remove(a)
-        else:
+        elif(len(tmp2) != 0):
             a = random.choice(tmp2)
             FinalTrigList.append(a)
             tmp2.remove(a)
+        else:
+            break
 
     childObj = GameObject(Shape+str(Color),HP,Shape,Color,Opacity)
     childObj.Triggers = FinalTrigList
@@ -133,15 +134,53 @@ def kTournament(objList, k):
     for i in range(k):
         choice = random.choice(objList)
         if(best != False):
-            if(choice[0] > best [0]):
+            if(choice[0] > best[0]):
                 best = choice
         else:
             best = choice
     return best
 
+def GameTournament(pop, k):
+    best = False
+    for i in range(k):
+        choice = random.choice(pop)
+        if(best != False):
+            if(choice > best):
+                best = choice
+        else:
+            best = choice
+    return best
 
+#Going to be replaced with code sending this to the Website
+#For now it just randomly assigns Fitness values
+#Allows us to test if the EA code actually works
+def EvaluatePopulation(pop):
+    for i in pop:
+        i.Fitness = random.randrange(0,10)
+        for j in i.ObjectList:
+            j[0].Fitness = random.randrange(0,10)
+    return pop
 
+def EVOLVE_OR_DIE(Pop_Size, Gen_size, NumEvals, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP):
+    pop = InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP)
+    pop = EvaluatePopulation(pop)
 
+    for i in range(0, NumEvals, Gen_size):
+        survive = []
+        for j in range(0, Gen_size):
+            p1 = GameTournament(pop,3)
+            p2 = GameTournament(pop,3)
+            pop.append(RecombineGame(p1,p2))
+            pop = EvaluatePopulation(pop)
+        for k in range(0, Gen_size):
+            p = GameTournament(pop,3)
+            survive.append(p)
+            pop.remove(p)
+        for l in range(0, Gen_size):
+            tmp = random.choice(pop)
+            pop.remove(tmp)
+        pop += survive
+    return pop
 
 def dumper(obj):
     return obj.__dict__
@@ -151,11 +190,10 @@ def ToJson(CurrentGame):
         json.dump(CurrentGame,myfile,default=dumper,indent=4)
 
 def main():
-    pop = InitializePopulation(3,0,None,2,100,100,1)
-    pop[0].Fitness = 4
-    pop[1].Fitness = 1
+    pop = EVOLVE_OR_DIE(15, 3, 30, 0, None, 5, 100, 100, 1)
+    pop.sort()
 
-    ToJson(RecombineGame(pop[1],pop[0]))
+    ToJson(pop[0])
 
 if __name__ == '__main__':
     main()
