@@ -99,7 +99,7 @@ class Trigger:
 					"CollideWith"+str(random.randint(1,8)), "CollideWithAny",
 					"OffScreen"]
 		# We need to pass in something to figure out what the num of objects in this game is
-		# to change "CollideWith"+str(random.randint(1,MAXOBJECTS))
+		# to change "CollideWith"+str(random.randint(1,len(Triggers array <number of objects in game>))
 
 		# Need to put something here to remove Action button triggers for buttons that were left out
 		# or just only add them conditionally. Not to difficult.
