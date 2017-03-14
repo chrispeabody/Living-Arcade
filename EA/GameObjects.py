@@ -1,4 +1,4 @@
-import random
+import random, pyodbc
 
 #TODO
 # 1. Fix randomization values in populateObjectsList
@@ -6,7 +6,7 @@ import random
 # 3. Figure out if/how we're passing numActionButtons down to trigger creation
 
 class Game(object):
-    Fitness = None
+    Fitness = 0
     Score = 0
 
     #Basic Properties to create a game, everything else will be generated later

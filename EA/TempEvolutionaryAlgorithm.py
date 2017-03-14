@@ -1,5 +1,5 @@
 from GameObjects import *
-import random, json
+import random, json, pyodbc
 from copy import deepcopy
 
 def InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP):
@@ -22,6 +22,16 @@ def InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, Max
 
         #Put all the information together, and insert into the Population
         population.append(NewGame)
+
+    cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
+    cursor = cnxn.cursor()
+    for newObj in population:
+         cursor.execute("insert into Games(gameID, gameJSON, gameFitness) values (?, ?, ?)", newObj.ID, toJSON(newObj), newObj.Fitness)
+         counter = 1
+         for i in newObj.objList:
+            cursor.execute("insert into gameObjects(objID, objJSON, objFitness) values (?, ?, ?)", i.Name, toJSON(i), i.Fitness, newObj.ID)
+            cursor.execute("update Games set obj"+counter+"ID=? where gameID=?", i.Name, newObj.ID)
+    cnxn.commit()
 
     return population
 
@@ -126,7 +136,17 @@ def RecombineGame(p1, p2):
         NewObj = [RecombineGameObject(tmp1[0],tmp2[0]), ((tmp1[1][0]+tmp2[1][0])/2, (tmp1[1][1]+tmp2[1][1])/2)]
         tmpObjList.append(NewObj)
 
-    return Game(OffScreenEffect, NumActionButtons, Score, tmpObjList, NumObj)
+
+    newObj = Game(OffScreenEffect, NumActionButtons, Score, tmpObjList, NumObj)
+    cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
+    cursor = cnxn.cursor()
+    cursor.execute("insert into Games(gameID, gameJSON, gameFitness) values (?, ?, ?)", newObj.ID, toJSON(newObj), newObj.Fitness)
+    counter = 1
+    for i in newObj.objList:
+        cursor.execute("insert into gameObjects(objID, objJSON, objFitness) values (?, ?, ?)", i.Name, toJSON(i), i.Fitness, newObj.ID)
+        cursor.execute("update Games set obj"+counter+"ID=? where gameID=?", i.Name, newObj.ID)
+    cnxn.commit()
+    return newObj
 
 #Simple k-tournament used for selection of [object, (coordinate)] pairs
 def kTournament(objList, k):
@@ -155,45 +175,75 @@ def GameTournament(pop, k):
 #For now it just randomly assigns Fitness values
 #Allows us to test if the EA code actually works
 def EvaluatePopulation(pop):
-    for i in pop:
-        i.Fitness = random.randrange(0,10)
-        for j in i.ObjectList:
-            j[0].Fitness = random.randrange(0,10)
+    cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
+    cursor = cnxn.cursor()
+    #Updating existing objects
+    for row in cursor.execute("select gameID, gameFitness from Game"):
+        for i in pop:
+            if(i.ID == row.gameID):
+                i.SetFitness(row.gameFitness)
+    for row in cursor.execute("select objId, parentID, objFitness from gameObjects"):
+        for i in pop:
+            if(i.ID == row.parentID):
+                for j in i.objList:
+                    if(j.Name == row.objID):
+                        j.Fitness = row.objFitness
     return pop
 
 def EVOLVE_OR_DIE(Pop_Size, Gen_size, NumEvals, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP):
     pop = InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP)
     pop = EvaluatePopulation(pop)
+    cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
+    cursor = cnxn.cursor()
 
-    for i in range(0, NumEvals, Gen_size):
+    while True:
         survive = []
-        for j in range(0, Gen_size):
-            p1 = GameTournament(pop,3)
-            p2 = GameTournament(pop,3)
-            pop.append(RecombineGame(p1,p2))
-            pop = EvaluatePopulation(pop)
-        for k in range(0, Gen_size):
-            p = GameTournament(pop,3)
-            survive.append(p)
-            pop.remove(p)
-        for l in range(0, Gen_size):
-            tmp = random.choice(pop)
-            pop.remove(tmp)
-        pop += survive
+        #Constantly queries the database to see if the Flag has been set by the frontend
+        #If it has, go to the next generation, else wait.
+        flag = cursor.execute("select gameFitness from Games where gameID='Flag'").fetchone()[0]
+
+        if(flag):
+            #resets the flag
+            cursor.execute("update Games set gameFitness=0 where gameID='Flag'")
+            for j in range(0, Gen_size):
+                p1 = GameTournament(pop,3)
+                p2 = GameTournament(pop,3)
+                pop.append(RecombineGame(p1,p2))
+                #Need some trigger to start this!
+                #Otherwise it'll be looping forever.
+                #Possibly a flag within the database itself?
+                pop = EvaluatePopulation(pop)
+            for k in range(0, Gen_size):
+                p = GameTournament(pop,3)
+                survive.append(p)
+                pop.remove(p)
+            for l in range(0, Gen_size):
+                tmp = random.choice(pop)
+                pop.remove(tmp)
+            pop += survive
+    MySQLDelete()
     return pop
+
+def MySQLDelete():
+    cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
+    cursor = cnxn.cursor()
+    for row in cursor.execute("select gameID"):
+        if row[0] not in gameObjList:
+            cursor.execute("delete from Games where gameID =?",row[0])
+            cursor.execute("delete from gameObjects where parentID=?",row[0])
+    cnxn.commit()
 
 def dumper(obj):
     return obj.__dict__
 
 def ToJson(CurrentGame):
-    with open("JsonTest.txt", "w+") as myfile:
-        json.dump(CurrentGame,myfile,default=dumper,indent=4)
+    return json.dumps(CurrentGame,default=dumper,indent=4)
 
 def main():
     pop = EVOLVE_OR_DIE(15, 3, 30, 0, None, 5, 100, 100, 1)
     pop.sort()
 
-    ToJson(pop[0])
+    print(ToJson(pop[0]))
 
 if __name__ == '__main__':
     main()
