@@ -1,0 +1,94 @@
+/* style.css
+   Chris Peabody
+   Living Arcade */
+
+body {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 14px;
+}
+
+.titlebox {
+	width: 800px;
+	height: 100;
+	min-height: 100px;
+	margin: 4% auto;
+	margin-top: 0%;
+	margin-bottom: 1%;
+
+	font-size: 40px;
+	text-align: center;
+}
+
+.wrapper {
+	width: 800px;
+	margin: 4% auto;
+	margin-top: 0%;
+
+	position: relative;
+	display: block;
+}
+
+.links {
+	width: 150;
+	padding: 10;
+
+	border-radius: 12px;
+
+	position: fixed;
+}
+
+.mainSection {
+	width: 800px;
+	padding: 20px;
+	padding-top: 1px; /* This doesn't feel right */
+
+	border-radius: 12px;
+
+	position: relative;
+}
+
+.content {
+	padding: 5px;
+
+	position: relative;
+
+	border-radius: 12px;
+	overflow: hidden;
+
+	background: rgba(10, 10, 10, 0.6);
+}
+
+.sectionHead {
+	font-size: 30px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+#news {
+	height: 150px;
+}
+
+.gameframe {
+	width: 100px;
+	height: 130px;
+	float: left;
+	margin: 1%;
+
+	text-align: center;
+	font-size: 18px;
+	border-radius: 10px;
+}
+
+.link {
+	border-radius: 10px;
+	text-align: center;
+	background: rgba(10, 10, 10, 0.5);
+	margin: 2px;
+	text-decoration: none;
+
+	cursor: pointer;
+}
+
+.link:hover{
+	background: rgba(10, 10, 10, 0.6);
+}

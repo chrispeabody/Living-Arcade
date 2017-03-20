@@ -1,0 +1,31 @@
+/* style.css
+   Chris Peabody
+   Living Arcade */
+
+body {
+	background:  #2A231C; /* 201812 */
+	background: -webkit-radial-gradient(#2F2821, #000000);
+	background:    -moz-radial-gradient(#2F2821, #000000);
+	background:         radial-gradient(#2F2821, #000000);
+
+	color: #A4C668; /* calming mint #A4C668*/
+}
+
+.links {
+	background: #2D251F;
+}
+
+.mainSection {
+	background:  #E3BE91;
+	background: -webkit-linear-gradient(#84664A, #442916);
+	background:    -moz-linear-gradient(#84664A, #442916);
+	background:         linear-gradient(#84664A, #442916);
+}
+
+.content {
+	border: 1px solid #1D3D15;
+}
+
+.gameframe {
+	border: 1px solid #1D3D15;
+}
