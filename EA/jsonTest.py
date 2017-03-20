@@ -9,7 +9,7 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
-import random, json
+import random, json, pyodbc
 from GameObjects import *
 
 def InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP):
@@ -52,8 +52,24 @@ def ToJson(CurrentGame):
 
 def main():
     pop = InitializePopulation(10,0,None,3,10,10,1)
+    population = [pop[0]]
+
+    #Connects to the database, and inputs an object to it
+    cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
+    cursor = cnxn.cursor()
+    for newObj in population:
+         cursor.execute("insert into Games(gameID, gameJSON, gameFitness) values (?, ?, ?)", newObj.ID, ToJson(newObj), newObj.Fitness)
+         counter = 1
+         for j in newObj.ObjectList:
+            i = j[0]
+            cursor.execute("insert into gameObjects(objID, objJSON, objFitness, parentID) values (?, ?, ?, ?)", i.Name, ToJson(i), i.Fitness, newObj.ID)
+            cursor.execute("update Games set obj"+str(counter)+"ID=? where gameID=?", i.Name, newObj.ID)
+    cnxn.commit()
+
+    #Dumps that object to a text file.
     with open("jsonTest.txt", "w+") as myfile:
         myfile.write(ToJson(pop[0]))
+        myfile.write("\n")
         myfile.write(ToJson(pop[0].ObjectList[0]))
 
 if __name__ == '__main__':
