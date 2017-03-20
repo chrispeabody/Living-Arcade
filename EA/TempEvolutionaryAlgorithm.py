@@ -30,7 +30,7 @@ def InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, Max
          counter = 1
          for i in newObj.objList:
             cursor.execute("insert into gameObjects(objID, objJSON, objFitness) values (?, ?, ?)", i.Name, toJSON(i), i.Fitness, newObj.ID)
-            cursor.execute("update Games set obj"+counter+"ID=? where gameID=?", i.Name, newObj.ID)
+            cursor.execute("update Games set obj"+str(counter)+"ID=? where gameID=?", i.Name, newObj.ID)
     cnxn.commit()
 
     return population

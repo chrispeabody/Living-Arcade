@@ -1,0 +1,176 @@
+{
+    "ID": 282931167881809444187161050873593334202,
+    "Score": 0,
+    "NumActionButtons": 2,
+    "OffScreenEffect": null,
+    "NumObj": 3,
+    "ObjectList": [
+        [
+            {
+                "Opacity": 51.57557407863025,
+                "Color": [
+                    98,
+                    129,
+                    96
+                ],
+                "Shape": "Octogon",
+                "Name": "Octogon(98, 129, 96)",
+                "HP": 1,
+                "Triggers": [
+                    {
+                        "action": "A2Released",
+                        "reaction": "ModSpeedBy-2"
+                    },
+                    {
+                        "action": "RightPressed",
+                        "reaction": "NewLevel"
+                    },
+                    {
+                        "action": "RightHeld",
+                        "reaction": "DestorySelf"
+                    },
+                    {
+                        "action": "LeftPressed",
+                        "reaction": "SetDirTo21"
+                    },
+                    {
+                        "action": "OffScreen",
+                        "reaction": "ModColorBy-175--10--151"
+                    },
+                    {
+                        "action": "A2Released",
+                        "reaction": "ModDirBy-41"
+                    }
+                ]
+            },
+            [
+                3,
+                7
+            ]
+        ],
+        [
+            {
+                "Opacity": 57.99869056776169,
+                "Color": [
+                    41,
+                    103,
+                    172
+                ],
+                "Shape": "Square",
+                "Name": "Square(41, 103, 172)",
+                "HP": 1,
+                "Triggers": [
+                    {
+                        "action": "A4Released",
+                        "reaction": "ModSpeedBy7"
+                    },
+                    {
+                        "action": "RightHeld",
+                        "reaction": "SetSpeedTo59"
+                    },
+                    {
+                        "action": "A4Pressed",
+                        "reaction": "EndGame"
+                    },
+                    {
+                        "action": "LeftPressed",
+                        "reaction": "ModSpeedBy-8"
+                    },
+                    {
+                        "action": "DownHeld",
+                        "reaction": "CreateObj1"
+                    },
+                    {
+                        "action": "A3Held",
+                        "reaction": "DestorySelf"
+                    },
+                    {
+                        "action": "A4Pressed",
+                        "reaction": "SetSpeedTo-77"
+                    },
+                    {
+                        "action": "A2Released",
+                        "reaction": "ModDirBy-2"
+                    }
+                ]
+            },
+            [
+                4,
+                0
+            ]
+        ],
+        [
+            {
+                "Opacity": 24.466419251892003,
+                "Color": [
+                    117,
+                    105,
+                    172
+                ],
+                "Shape": "Square",
+                "Name": "Square(117, 105, 172)",
+                "HP": 1,
+                "Triggers": [
+                    {
+                        "action": "RightReleased",
+                        "reaction": "ModSpeedBy0"
+                    },
+                    {
+                        "action": "CollideWith6",
+                        "reaction": "NewLevel"
+                    },
+                    {
+                        "action": "A4Pressed",
+                        "reaction": "EndGame"
+                    }
+                ]
+            },
+            [
+                2,
+                2
+            ]
+        ]
+    ]
+}[
+    {
+        "Opacity": 51.57557407863025,
+        "Color": [
+            98,
+            129,
+            96
+        ],
+        "Shape": "Octogon",
+        "Name": "Octogon(98, 129, 96)",
+        "HP": 1,
+        "Triggers": [
+            {
+                "action": "A2Released",
+                "reaction": "ModSpeedBy-2"
+            },
+            {
+                "action": "RightPressed",
+                "reaction": "NewLevel"
+            },
+            {
+                "action": "RightHeld",
+                "reaction": "DestorySelf"
+            },
+            {
+                "action": "LeftPressed",
+                "reaction": "SetDirTo21"
+            },
+            {
+                "action": "OffScreen",
+                "reaction": "ModColorBy-175--10--151"
+            },
+            {
+                "action": "A2Released",
+                "reaction": "ModDirBy-41"
+            }
+        ]
+    },
+    [
+        3,
+        7
+    ]
+]
