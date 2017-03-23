@@ -32,42 +32,42 @@
 		<link>
 			<name>WebContent/css/colorscheme.css</name>
 			<type>1</type>
-			<location>C:/Users/Luke/workspace/LivingArcade/WebContent/css/colorscheme.css</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/LivingArcade/WebContent/css/colorscheme.css</locationURI>
 		</link>
 		<link>
 			<name>WebContent/css/colorscheme1.css</name>
 			<type>1</type>
-			<location>C:/Users/Luke/workspace/LivingArcade/WebContent/css/colorscheme1.css</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/LivingArcade/WebContent/css/colorscheme1.css</locationURI>
 		</link>
 		<link>
 			<name>WebContent/css/style.css</name>
 			<type>1</type>
-			<location>C:/Users/Luke/workspace/LivingArcade/WebContent/css/style.css</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/LivingArcade/WebContent/css/style.css</locationURI>
 		</link>
 		<link>
 			<name>WebContent/images/tempgame.png</name>
 			<type>1</type>
-			<location>C:/Users/Luke/workspace/LivingArcade/WebContent/images/tempgame.png</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/LivingArcade/WebContent/images/tempgame.png</locationURI>
 		</link>
 		<link>
 			<name>WebContent/images/tempgame.xcf</name>
 			<type>1</type>
-			<location>C:/Users/Luke/workspace/LivingArcade/WebContent/images/tempgame.xcf</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/LivingArcade/WebContent/images/tempgame.xcf</locationURI>
 		</link>
 		<link>
 			<name>WebContent/javascript/index.js</name>
 			<type>1</type>
-			<location>C:/Users/Luke/workspace/LivingArcade/WebContent/javascript/index.js</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/LivingArcade/WebContent/javascript/index.js</locationURI>
 		</link>
 		<link>
 			<name>WebContent/javascript/jquery-3.1.1.js</name>
 			<type>1</type>
-			<location>C:/Users/Luke/workspace/LivingArcade/WebContent/javascript/jquery-3.1.1.js</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/LivingArcade/WebContent/javascript/jquery-3.1.1.js</locationURI>
 		</link>
 		<link>
 			<name>WebContent/javascript/links.js</name>
 			<type>1</type>
-			<location>C:/Users/Luke/workspace/LivingArcade/WebContent/javascript/links.js</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/LivingArcade/WebContent/javascript/links.js</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
