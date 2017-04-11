@@ -40,15 +40,25 @@ def main():
 ##
 ##
 ##
-##    #adding new ones
-##    cursor.execute("insert into Games(gameID, gameJSON, gameFitness) values (?, ?, ?)", newObj.ID, toJSON(newObj), newObj.Fitness)
-##    cnxn.commit()
 ##
 ##    #deleting old
 ##    for row in cursor.execute("select gameID"):
 ##        if row[0] not in gameObjList:
 ##            cursor.execute("delete from Games where gameID =?",row[0])
 ##            cursor.execute("delete from gameObjects where parentID=?",row[0])
+##    cnxn.commit()
+
+
+##    #uploading a new object to the database.
+##    cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
+##    cursor = cnxn.cursor()
+##    for newObj in population:
+##         cursor.execute("insert into Games(gameID, gameJSON, gameFitness) values (?, ?, ?)", newObj.ID, ToJson(newObj), newObj.Fitness)
+##         counter = 1
+##         for j in newObj.ObjectList:
+##            i = j[0]
+##            cursor.execute("insert into gameObjects(objID, objJSON, objFitness, parentID) values (?, ?, ?, ?)", i.Name, ToJson(i), i.Fitness, newObj.ID)
+##            cursor.execute("update Games set obj"+str(counter)+"ID=? where gameID=?", i.Name, newObj.ID)
 ##    cnxn.commit()
 
     cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
