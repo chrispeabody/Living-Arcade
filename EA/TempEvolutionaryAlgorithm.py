@@ -2,6 +2,8 @@ from GameObjects import *
 import random, json, pyodbc
 from copy import deepcopy
 
+cfgfile = "namelists.cfg"
+
 def InitializePopulation(Pop_Size, Score, NumObjects, MaxX, MaxY, HP):
     population = []
     OffScreenEffects = ["Destroy", "Warp", "Bounce", "Stop"]
@@ -17,7 +19,7 @@ def InitializePopulation(Pop_Size, Score, NumObjects, MaxX, MaxY, HP):
             NewLog = [GenerateGameObj(NumActionButtons, HP), (random.randint(0,MaxX),random.randint(0,MaxY))]
             log.append(NewLog)
         Player = [GenerateGameObj(NumActionButtons, HP), (random.randint(0,MaxX),random.randint(0,MaxY))] #Using generic methods to generate the player. Need to decide on what specific methods we want later.
-        Player[0].Name = "Player"
+        Player[0].Name = getName(cfgFile)
         log.append(Player)
 
         #Quick and dirty way to randomly generate the regions the player can spawn in, with no duplicates
@@ -274,6 +276,31 @@ def main():
     pop.sort()
 
     print(ToJson(pop[0]))
+
+def getName(cfgFile):
+    seed()
+    cfg = file(cfgFile, 'r')
+    config = list(cfg)
+    for i in range(len(config)):
+        config[i] = config[i].replace('\r\n','')
+    else:
+        print("Error, file not found.")
+        sys.exit(0)
+    SupStartIndex = config.index("SUPERLATIVES") + 1
+    AdjStartIndex = config.index("ADJECTIVES") + 1
+    NounStartIndex = config.index("NOUNS") + 1
+    NumOfSups = AdjStartIndex - 2 - SupStartIndex
+    NumOfAdj = NounStartIndex - 2 - AdjStartIndex
+    NumOfNouns = config.index("END") - 2 - NounStartIndex
+    SupIndex = SupStartIndex+randint(0, NumOfSups)
+    AdjIndex = AdjStartIndex+randint(0, NumOfAdj)
+    NounIndex = NounStartIndex+randint(0, NumOfNouns)
+    if config[SupIndex] == " ":
+        name = config[AdjIndex] + " " + config[NounIndex]
+    else:
+        name =  config[SupIndex] + " " + config[AdjIndex] + " " + config[NounIndex]
+    return name;
+    
 
 if __name__ == '__main__':
     main()
