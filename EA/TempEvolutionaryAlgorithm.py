@@ -19,7 +19,7 @@ def InitializePopulation(Pop_Size, Score, NumObjects, MaxX, MaxY, HP):
             NewLog = [GenerateGameObj(NumActionButtons, HP), (random.randint(0,MaxX),random.randint(0,MaxY))]
             log.append(NewLog)
         Player = [GenerateGameObj(NumActionButtons, HP), (random.randint(0,MaxX),random.randint(0,MaxY))] #Using generic methods to generate the player. Need to decide on what specific methods we want later.
-        Player[0].Name = getName(cfgFile)
+        Player[0].Name = "Player"
         log.append(Player)
 
         #Quick and dirty way to randomly generate the regions the player can spawn in, with no duplicates
@@ -31,7 +31,7 @@ def InitializePopulation(Pop_Size, Score, NumObjects, MaxX, MaxY, HP):
 
         OffScreenEffect = random.choice(OffScreenEffects)
 
-        NewGame = Game(OffScreenEffect, NumActionButtons, Score, log, NumObjects, PlayerSpawns, Player)
+        NewGame = Game(getName(cfgFile),OffScreenEffect, NumActionButtons, Score, log, NumObjects, PlayerSpawns, Player)
 
         #Put all the information together, and insert into the Population
         population.append(NewGame)
@@ -166,7 +166,7 @@ def RecombineGame(p1, p2):
         tmpObjList.append(NewObj)
 
 
-    newObj = Game(OffScreenEffect, NumActionButtons, Score, tmpObjList, NumObj)
+    newObj = Game(getName(cfgFile),OffScreenEffect, NumActionButtons, Score, tmpObjList, NumObj)
     cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
     cursor = cnxn.cursor()
     cursor.execute("insert into Games(gameID, gameJSON, gameFitness) values (?, ?, ?)", newObj.ID, toJSON(newObj), newObj.Fitness)
@@ -300,7 +300,7 @@ def getName(cfgFile):
     else:
         name =  config[SupIndex] + " " + config[AdjIndex] + " " + config[NounIndex]
     return name;
-    
+
 
 if __name__ == '__main__':
     main()
