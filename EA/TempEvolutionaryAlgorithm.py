@@ -2,8 +2,11 @@ from GameObjects import *
 import random, json, pyodbc
 from copy import deepcopy
 
-def InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP):
+cfgfile = "namelists.cfg"
+
+def InitializePopulation(Pop_Size, Score, NumObjects, MaxX, MaxY, HP):
     population = []
+    OffScreenEffects = ["Destroy", "Warp", "Bounce", "Stop"]
 
     for i in range(Pop_Size):
         log = []
@@ -16,31 +19,52 @@ def InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, Max
             NewLog = [GenerateGameObj(NumActionButtons, HP), (random.randint(0,MaxX),random.randint(0,MaxY))]
             log.append(NewLog)
         Player = [GenerateGameObj(NumActionButtons, HP), (random.randint(0,MaxX),random.randint(0,MaxY))] #Using generic methods to generate the player. Need to decide on what specific methods we want later.
+        Player[0].Name = "Player"
         log.append(Player)
 
-        NewGame = Game(OffScreenEffect, NumActionButtons, Score, log, NumObjects)
+        #Quick and dirty way to randomly generate the regions the player can spawn in, with no duplicates
+        PlayerSpawns = []
+        for j in range(random.randint(1,12)):
+            tmp = random.randint(1,12)
+            if(tmp not in PlayerSpawns):
+                PlayerSpawns.append(tmp)
+
+        OffScreenEffect = random.choice(OffScreenEffects)
+
+        NewGame = Game(getName(cfgFile),OffScreenEffect, NumActionButtons, Score, log, NumObjects, PlayerSpawns, Player)
 
         #Put all the information together, and insert into the Population
         population.append(NewGame)
 
+    for i in population:
+        for j in i.ObjectList:
+            j.UpdateTriggers(i.ObjectList)
+
     cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
     cursor = cnxn.cursor()
     for newObj in population:
-         cursor.execute("insert into Games(gameID, gameJSON, gameFitness) values (?, ?, ?)", newObj.ID, toJSON(newObj), newObj.Fitness)
+         cursor.execute("insert into Games(gameID, gameJSON, gameFitness) values (?, ?, ?)", newObj.ID, ToJson(newObj), newObj.Fitness)
          counter = 1
-         for i in newObj.objList:
-            cursor.execute("insert into gameObjects(objID, objJSON, objFitness) values (?, ?, ?)", i.Name, toJSON(i), i.Fitness, newObj.ID)
+         for j in newObj.ObjectList:
+            i = j[0]
+            cursor.execute("insert into gameObjects(objID, objJSON, objFitness, parentID) values (?, ?, ?, ?)", i.Name, ToJson(i), i.Fitness, newObj.ID)
             cursor.execute("update Games set obj"+str(counter)+"ID=? where gameID=?", i.Name, newObj.ID)
     cnxn.commit()
 
     return population
 
 def GenerateGameObj(NumActionButtons, HP):
-    shapes = ["Square","Circle","Triangle","Octogon"] #List can be expanded as unity people gives us more to work with
+    shapes = ["Square","Circle","Triangle","Pentagon","Hexagon","Octagon"]
     Color = (random.randint(0,255),random.randint(0,255),random.randint(0,255)) #(R, G, B)
     Opacity = random.uniform(0,100) #Opacity Percentage
     Shape = random.choice(shapes)
-    NewObj = GameObject(Shape+str(Color),HP,Shape,Color,Opacity)
+    #Need to figure out what we want to do with this!
+    MinSpawns = [0,0,0,0,0,0,0,0,0,0,0,0]
+    #Right now, the max is just a random number between 0 and 5
+    MaxSpawns = []
+    for i in range(12):
+        MaxSpawns.append(random.randint(0,5))
+    NewObj = GameObject(Shape+str(Color),HP,Shape,Color,Opacity,MinSpawns,MaxSpawns)
     NewObj.GenerateReactions(NumActionButtons)
     return NewObj
 
@@ -52,6 +76,11 @@ def RecombineGameObject(p1, p2):
 
     #Random HP
     HP = random.choice([p1.HP, p2.HP])
+
+    #Max and Min spawns simply takes the one from the greater parent
+    MinSpawns = max(p1,p2).MinSpawns
+    MaxSpawns = max(p1,p2).MaxSpawns
+
 
     #Average of the RGB values
     Color = ((p1.Color[0]+p2.Color[0])/2, (p1.Color[1]+p2.Color[1])/2, (p1.Color[2]+p2.Color[2])/2)
@@ -106,7 +135,7 @@ def RecombineGameObject(p1, p2):
         else:
             break
 
-    childObj = GameObject(Shape+str(Color),HP,Shape,Color,Opacity)
+    childObj = GameObject(Shape+str(Color),HP,Shape,Color,Opacity,MinSpawns,MaxSpawns)
     childObj.Triggers = FinalTrigList
 
     return childObj
@@ -137,7 +166,7 @@ def RecombineGame(p1, p2):
         tmpObjList.append(NewObj)
 
 
-    newObj = Game(OffScreenEffect, NumActionButtons, Score, tmpObjList, NumObj)
+    newObj = Game(getName(cfgFile),OffScreenEffect, NumActionButtons, Score, tmpObjList, NumObj)
     cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
     cursor = cnxn.cursor()
     cursor.execute("insert into Games(gameID, gameJSON, gameFitness) values (?, ?, ?)", newObj.ID, toJSON(newObj), newObj.Fitness)
@@ -190,8 +219,8 @@ def EvaluatePopulation(pop):
                         j.Fitness = row.objFitness
     return pop
 
-def EVOLVE_OR_DIE(Pop_Size, Gen_size, NumEvals, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP):
-    pop = InitializePopulation(Pop_Size, Score, OffScreenEffect, NumObjects, MaxX, MaxY, HP)
+def EVOLVE_OR_DIE(Pop_Size, Gen_size, NumEvals, Score, NumObjects, MaxX, MaxY, HP):
+    pop = InitializePopulation(Pop_Size, Score, NumObjects, MaxX, MaxY, HP)
     pop = EvaluatePopulation(pop)
     cnxn = pyodbc.connect('DRIVER={MySQL ODBC 5.3 Unicode Driver};Server=149.56.28.102;port=3306;Database=LivingArcade;user=theUser;password=newPass!!!123')
     cursor = cnxn.cursor()
@@ -205,13 +234,16 @@ def EVOLVE_OR_DIE(Pop_Size, Gen_size, NumEvals, Score, OffScreenEffect, NumObjec
         if(flag):
             #resets the flag
             cursor.execute("update Games set gameFitness=0 where gameID='Flag'")
-            for j in range(0, Gen_size):
+            for m in range(0, Gen_size):
                 p1 = GameTournament(pop,3)
                 p2 = GameTournament(pop,3)
                 pop.append(RecombineGame(p1,p2))
                 #Need some trigger to start this!
                 #Otherwise it'll be looping forever.
                 #Possibly a flag within the database itself?
+                for i in pop:
+                    for j in i.ObjectList:
+                        j.UpdateTriggers(i.ObjectList)
                 pop = EvaluatePopulation(pop)
             for k in range(0, Gen_size):
                 p = GameTournament(pop,3)
@@ -240,10 +272,35 @@ def ToJson(CurrentGame):
     return json.dumps(CurrentGame,default=dumper,indent=4)
 
 def main():
-    pop = EVOLVE_OR_DIE(15, 3, 30, 0, None, 5, 100, 100, 1)
+    pop = EVOLVE_OR_DIE(15, 3, 30, 0, 5, 100, 100, 1)
     pop.sort()
 
     print(ToJson(pop[0]))
+
+def getName(cfgFile):
+    seed()
+    cfg = file(cfgFile, 'r')
+    config = list(cfg)
+    for i in range(len(config)):
+        config[i] = config[i].replace('\r\n','')
+    else:
+        print("Error, file not found.")
+        sys.exit(0)
+    SupStartIndex = config.index("SUPERLATIVES") + 1
+    AdjStartIndex = config.index("ADJECTIVES") + 1
+    NounStartIndex = config.index("NOUNS") + 1
+    NumOfSups = AdjStartIndex - 2 - SupStartIndex
+    NumOfAdj = NounStartIndex - 2 - AdjStartIndex
+    NumOfNouns = config.index("END") - 2 - NounStartIndex
+    SupIndex = SupStartIndex+randint(0, NumOfSups)
+    AdjIndex = AdjStartIndex+randint(0, NumOfAdj)
+    NounIndex = NounStartIndex+randint(0, NumOfNouns)
+    if config[SupIndex] == " ":
+        name = config[AdjIndex] + " " + config[NounIndex]
+    else:
+        name =  config[SupIndex] + " " + config[AdjIndex] + " " + config[NounIndex]
+    return name;
+
 
 if __name__ == '__main__':
     main()
