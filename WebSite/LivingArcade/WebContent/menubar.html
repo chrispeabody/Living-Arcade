@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,6 +76,9 @@ li.dropdown {
   </li>
 </ul>
 <div class="g-signin2" style="float:right" data-onsuccess="onSignIn"></div>
+<div id="signOutbutton">
+    <a href="#" onclick="signOut();">Sign out</a>
+</div>
 
 
 
@@ -101,8 +105,23 @@ window.onclick = function(e) {
 }
 function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
-  document.cookie = 'ID: ' + profile.getId() + 'Image URL: ' + profile.getImageUrl() +'Email: ' + profile.getEmail();
+  document.cookie = "ID= " + profile.getId()+";" + "Image URL= " + profile.getImageUrl() + ";" +"Email= " + profile.getEmail() + ";" + "L_On= True;";
 }
+
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+     document.cookie = "ID= " + profile.getId()+";" + "Image URL= " + profile.getImageUrl() + ";" +"Email= " + profile.getEmail() + ";" + "L_On= False;";
+    });
+  }
+    bool function IsSignedIn(){
+        var S_on = getCookie("L_On");
+        if (S_on == "True"){
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
 
 </body>

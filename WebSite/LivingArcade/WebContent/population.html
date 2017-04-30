@@ -11,15 +11,104 @@
 	<script src="javascript/jquery-3.1.1.js"></script>
 	<script src="javascript/links.js"></script>
 	<script src="javascript/population.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="1052657695220-3tvej8vfhmgjtvhdbmqjolppi5s579hb.apps.googleusercontent.com">
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+</style>
 </head>
 <body>
-	<div class="links">
-		<div class="link" id="linkHome">Home</div>
+
+<ul>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn" onclick="myFunction()">Menu</a>
+    <div class="dropdown-content" id="myDropdown">
+        <div class="link" id="linkHome">Home</div>
 		<div class="link" id="linkPopulation">Population</div>
 		<div class="link" id="linkAbout">About</div>
 		<div class="link" id="linkBlog">Blog</div>
 		<div class="link" id="linkAccount">Account</div>
-	</div>
+    </div>
+  </li>
+</ul>
+<div class="g-signin2" style="float:right" data-onsuccess="onSignIn"></div>
+
+
+
+
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    for (var d = 0; d < dropdowns.length; d++) {
+      var openDropdown = dropdowns[d];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+function onSignIn(googleUser) {
+  var id_token = googleUser.getAuthResponse().id_token;
+  document.cookie = 'ID: ' + profile.getId() + 'Image URL: ' + profile.getImageUrl() +'Email: ' + profile.getEmail();
+}
+</script>
+
 	<div class="titlebox">
 		<h1>Living Arcade</h1>
 	</div>

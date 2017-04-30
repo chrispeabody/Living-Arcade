@@ -2,9 +2,14 @@
 // Chris Peabody
 // Living Arcade
 
+function pongDirect() {
+		document.location.href = "PongDirect";
+
+	}
+
 var main = function() {
 	$('#linkHome').click(function() {
-		window.location = "index.html";
+		window.location = "index.jsp";
 	});
 
 	$('#linkPopulation').click(function() {

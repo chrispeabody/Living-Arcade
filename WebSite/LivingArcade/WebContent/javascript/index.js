@@ -1,4 +1,4 @@
-// links.js
+// index.js
 // Chris Peabody
 // Living Arcade
 
@@ -7,6 +7,5 @@ var main = function() {
 		window.location = "index.jsp";
 	});
 }
-
 
 $(document).ready(main);

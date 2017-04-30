@@ -2,6 +2,9 @@
 <!-- Living Arcade -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page import="org.jsoup.nodes.*"%>
+<%@ page import="org.jsoup.select.*"%>
+<%@ page import="org.jsoup.*"%>
 <html>
 
 <head>
@@ -11,15 +14,93 @@
 <script src="javascript/jquery-3.1.1.js"></script>
 <script src="javascript/links.js"></script>
 <script src="javascript/index.js"></script>
+<script src="javascript/scripts.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id"
+	content="1052657695220-3tvej8vfhmgjtvhdbmqjolppi5s579hb.apps.googleusercontent.com">
+<style>
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+
+li {
+	float: left;
+}
+
+li a, .dropbtn {
+	display: inline-block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+	background-color: red;
+}
+
+li.dropdown {
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	text-align: left;
+}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1
+}
+
+.show {
+	display: block;
+}
+</style>
 </head>
 <body>
-	<div class="links">
-		<div class="link" id="linkHome">Home</div>
-		<div class="link" id="linkPopulation">Population</div>
-		<div class="link" id="linkAbout">About</div>
-		<div class="link" id="linkBlog">Blog</div>
-		<div class="link" id="linkAccount">Account</div>
+
+	<ul>
+		<li class="dropdown"><a href="javascript:void(0)" class="dropbtn"
+			onclick="myFunction()">Menu</a>
+			<div class="dropdown-content" id="myDropdown">
+				<div class="link" id="linkHome">Home</div>
+				<div class="link" id="linkPopulation">Population</div>
+				<div class="link" id="linkAbout">About</div>
+				<div class="link" id="linkBlog">Blog</div>
+				<div class="link" id="linkAccount">Account</div>
+			</div></li>
+	</ul>
+	<div class="g-signin2" style="float: right" data-onsuccess="onSignIn"></div>
+	<div id="signOutbutton">
+		<a href="#" onclick="signOut();">Sign out</a>
 	</div>
+
+
+
+
+	<script>
+		if (IsSignedIn()) {
+			changeElement2("signOutbutton");
+		} else {
+			changeElement1("signOutbutton");
+		}
+	</script>
 	<div class="titlebox">
 		<h1>Living Arcade</h1>
 	</div>
@@ -27,30 +108,18 @@
 		<div class="mainSection">
 			<h2 class="sectionHead">Welcome</h2>
 			<div class="content" id="welcome">
-				A brief description of what this site is should go here. A link to
-				the about page will be located here, and the potential for a video
-				is definitely there. This should be a brief but comprehensive
-				explaination of what the site is all about, and its goals. "The
-				generation of web-based arcade game through use of evolutionary
-				algorithms."<br>
-				<br> This section is currently dynamically sized to the
-				information inside it. I figure the information located here won't
-				change much, so fitting it directly to the information should work
-				best.
+				Welcome to the Living Arcade! We're a work in progress at the
+				moment, but keep your eye on this page! Our goal is to create
+				web-based arcade games using evolutionary algorithms.<br> <br>
 			</div>
 			<h2 class="sectionHead">News</h2>
 			<div class="content" id="news">
-				This section should house the first several lines of the latest blog
-				post from the news/blog page. That page will have information on the
-				latest developments for the site, where things are going, what's
-				new, etc. In addition, to make it obvious that this is a preview, we
-				should work on finding a "fade to grey" effect to put over the text,
-				that gradually goes out toward the bottom. A link to the blog page
-				should be apparent, where the latest post will be displayed. <br>
-				<br> This area is a static size. Since the length of the blog
-				posts will change, and the fade out effect and "more" buttons should
-				be present, the actual size of this box shouldn't change, while how
-				much content that fits into it will vary.
+				<%
+					Document doc = Jsoup.connect("http://thelivingarcade.tumblr.com/").get();
+					Element body = doc.select("div.body-text").first();
+					out.println(body.text());
+					out.println("<br><a href=\"http://thelivingarcade.tumblr.com\">View the blog!</a>");
+				%>
 			</div>
 			<h2 class="sectionHead">Newly generated games</h2>
 			<div class="content" id="newgames">
