@@ -4,7 +4,7 @@
 
 var main = function() {
 	$('#linkHome').click(function() {
-		window.location = "index.html";
+		window.location = "index.jsp";
 	});
 }
 

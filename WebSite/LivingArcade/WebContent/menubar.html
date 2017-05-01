@@ -1,18 +1,15 @@
-<!-- population.html -->
-<!-- Chris Peabody -->
-<!-- Living Arcade -->
 
+<!DOCTYPE html>
 <html>
-
 <head>
-	<title> Living Arcade </title>
+  	<title> Living Arcade </title>
 	<link href="css/style.css" rel="stylesheet" type="text/css">
 	<link href="css/colorscheme.css" rel="stylesheet" type="text/css">
 	<script src="javascript/jquery-3.1.1.js"></script>
 	<script src="javascript/links.js"></script>
-	<script src="javascript/population.js"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="1052657695220-3tvej8vfhmgjtvhdbmqjolppi5s579hb.apps.googleusercontent.com">
+	<script src="javascript/index.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="1052657695220-3tvej8vfhmgjtvhdbmqjolppi5s579hb.apps.googleusercontent.com">
 <style>
 ul {
     list-style-type: none;
@@ -79,6 +76,9 @@ li.dropdown {
   </li>
 </ul>
 <div class="g-signin2" style="float:right" data-onsuccess="onSignIn"></div>
+<div id="signOutbutton">
+    <a href="#" onclick="signOut();">Sign out</a>
+</div>
 
 
 
@@ -105,18 +105,24 @@ window.onclick = function(e) {
 }
 function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
-  document.cookie = 'ID: ' + profile.getId() + 'Image URL: ' + profile.getImageUrl() +'Email: ' + profile.getEmail();
+  document.cookie = "ID= " + profile.getId()+";" + "Image URL= " + profile.getImageUrl() + ";" +"Email= " + profile.getEmail() + ";" + "L_On= True;";
 }
+
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+     document.cookie = "ID= " + profile.getId()+";" + "Image URL= " + profile.getImageUrl() + ";" +"Email= " + profile.getEmail() + ";" + "L_On= False;";
+    });
+  }
+    bool function IsSignedIn(){
+        var S_on = getCookie("L_On");
+        if (S_on == "True"){
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
 
-	<div class="titlebox">
-		<h1>Living Arcade</h1>
-	</div>
-	<div class="wrapper">
-		<div class="mainSection">
-			Population.
-		</div>
-	</div>
 </body>
-
 </html>
