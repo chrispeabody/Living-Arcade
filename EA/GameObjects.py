@@ -10,8 +10,9 @@ class Game(object):
     Score = 0
 
     #Basic Properties to create a game, everything else will be generated later
-    def __init__(self, ID, OffScreenEffect, NumActionButtons, Score, objList, NumObj, PlayerSpawns, Player):
-        self.ID = ID
+    def __init__(self, Name, OffScreenEffect, NumActionButtons, Score, objList, NumObj, PlayerSpawns, Player):
+        self.ID = random.randint(0,2**(32)-1) #Sample Space so big collisions aren't a concern
+        self.Name = Name
         self.OffScreenEffect = OffScreenEffect
         self.NumActionButtons = NumActionButtons
         self.Score = Score
