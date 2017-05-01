@@ -3,11 +3,13 @@
 //Test scripts (Fix this comment)
 
 function changeElement1(elementID) {
-	document.getElementById(elementID).style.display='none';
+	var x=document.getElementById(elementID);
+	x.style.display='none';
 }
 
 function changeElement2(elementID){
-	document.getElementById(elementID).style.display='block';
+	var x=document.getElementById(elementID);
+	x.style.display='block';
 }
 
 function getCookie(cname) {
@@ -30,8 +32,8 @@ function getCookie(cname) {
 function myFunction() {
 	document.getElementById("myDropdown").classList.toggle("show");
 	if(!IsSignOn()){
-		document.getElementById("linkAccount").style.display= "none";
-		document.getElementById("linkPopulation").style.display= "none";
+		document.getElementById("linkAccount").style.display="none";
+		document.getElementById("linkPopulation").style.display="none";
 		
 	}
 }
@@ -68,7 +70,8 @@ function onSignIn(googleUser) {
 	console.log("Email=" + getCookie("Email"));
 	console.log("L_On=" + getCookie("L_On"));
 	console.log(profile.getEmail());
-	document.getElementById("Welcome").innerHTML = "Welcome to Living Arcade, " + profile.getName();
+	var greeter ="Welcome to Living Arcade, "+ profile.getName();
+	document.getElementById("MyWelcome").innerHTML=greeter; 
 }
 
 function signOut() {
