@@ -90,6 +90,8 @@ li.dropdown {
 	<div id="signOutbutton">
 		<a href="#" onclick="signOut();">Sign out</a>
 	</div>
+	<div id ="Welcome" style ="float: right">" "</div>
+	     
 
 
 
@@ -99,6 +101,11 @@ li.dropdown {
 			changeElement2("signOutbutton");
 		} else {
 			changeElement1("signOutbutton");
+		}
+		if (IsSignedIn()) {
+			changeElement2("Welcome");
+		} else {
+			changeElement1("Welcome");
 		}
 	</script>
 	<div class="titlebox">

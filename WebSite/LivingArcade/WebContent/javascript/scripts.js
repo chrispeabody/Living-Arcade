@@ -3,11 +3,11 @@
 //Test scripts (Fix this comment)
 
 function changeElement1(elementID) {
-	document.getElementById(elementID).style.font='Times New Roman';
+	document.getElementById(elementID).style.display='none';
 }
 
 function changeElement2(elementID){
-	document.getElementById(elementID).style.font='Arial';
+	document.getElementById(elementID).style.display='block';
 }
 
 function getCookie(cname) {
@@ -29,6 +29,11 @@ function getCookie(cname) {
  toggle between hiding and showing the dropdown content */
 function myFunction() {
 	document.getElementById("myDropdown").classList.toggle("show");
+	if(!IsSignOn()){
+		document.getElementById("linkAccount").style.display= "none";
+		document.getElementById("linkPopulation").style.display= "none";
+		
+	}
 }
 
 function setCookie(id, imgurl, email, isLoggedOn){
@@ -63,6 +68,7 @@ function onSignIn(googleUser) {
 	console.log("Email=" + getCookie("Email"));
 	console.log("L_On=" + getCookie("L_On"));
 	console.log(profile.getEmail());
+	document.getElementById("Welcome").innerHTML = "Welcome to Living Arcade, " + profile.getName();
 }
 
 function signOut() {
