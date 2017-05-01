@@ -4,12 +4,12 @@
 
 function changeElement1(elementID) {
 	var x=document.getElementById(elementID);
-	x.style.display='none';
+	x.classList.toggle("show");
 }
 
 function changeElement2(elementID){
 	var x=document.getElementById(elementID);
-	x.style.display='block';
+	x.classList.toggle("show");
 }
 
 function getCookie(cname) {
@@ -71,7 +71,9 @@ function onSignIn(googleUser) {
 	console.log("L_On=" + getCookie("L_On"));
 	console.log(profile.getEmail());
 	var greeter ="Welcome to Living Arcade, "+ profile.getName();
+	console.log(greeter);
 	document.getElementById("MyWelcome").innerHTML=greeter; 
+	MyChecker();
 }
 
 function signOut() {
@@ -80,6 +82,7 @@ function signOut() {
 			function() {
 				document.cookie = "L_On=False;";
 				console.log(document.cookie);
+				MyChecker();
 			});
 }
 function IsSignedIn() {
