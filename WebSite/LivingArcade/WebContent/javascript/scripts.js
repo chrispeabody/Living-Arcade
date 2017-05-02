@@ -3,12 +3,21 @@
 //Test scripts (Fix this comment)
 
 function changeElement1(elementID) {
+<<<<<<< HEAD
 	var x = document.getElementById(elementID);
 	x.style.display="none";
 }
 
 function changeElement2(elementID) {
 	var x = document.getElementById(elementID);
+=======
+	var x=document.getElementById(elementID);
+	x.style.display="none";
+}
+
+function changeElement2(elementID){
+	var x=document.getElementById(elementID);
+>>>>>>> b40cead2485aac35fc565f2995a9f87cff8624a0
 	x.style.display="block";
 }
 
