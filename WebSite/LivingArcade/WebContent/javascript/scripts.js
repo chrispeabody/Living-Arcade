@@ -3,13 +3,13 @@
 //Test scripts (Fix this comment)
 
 function changeElement1(elementID) {
-	var x=document.getElementById(elementID);
-	x.classList.toggle("show");
+	var x = document.getElementById(elementID);
+	x.style.display="none";
 }
 
-function changeElement2(elementID){
-	var x=document.getElementById(elementID);
-	x.classList.toggle("show");
+function changeElement2(elementID) {
+	var x = document.getElementById(elementID);
+	x.style.display="block";
 }
 
 function getCookie(cname) {
@@ -27,29 +27,30 @@ function getCookie(cname) {
 	}
 	return "";
 }
-/* When the user clicks on the button, 
- toggle between hiding and showing the dropdown content */
+/*
+ * When the user clicks on the button, toggle between hiding and showing the
+ * dropdown content
+ */
 function myFunction() {
 	document.getElementById("myDropdown").classList.toggle("show");
-	if(!IsSignOn()){
-		document.getElementById("linkAccount").style.display="none";
-		document.getElementById("linkPopulation").style.display="none";
-		
+	if (!IsSignedIn()) {
+		document.getElementById("linkAccount").style.display = "none";
+		document.getElementById("linkPopulation").style.display = "none";
+
 	}
 }
 
-function setCookie(id, imgurl, email, isLoggedOn){
+function setCookie(id, imgurl, email, isLoggedOn) {
 	document.cookie = "ID=" + id;
 	document.cookie = "ImageURL=" + imgurl;
 	document.cookie = "Email=" + email;
-	document.cookie = "L_On=" + isLoggedOn;			
+	document.cookie = "L_On=" + isLoggedOn;
 }
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(e) {
 	if (!e.target.matches('.dropbtn')) {
 
-		var dropdowns = document
-				.getElementsByClassName("dropdown-content");
+		var dropdowns = document.getElementsByClassName("dropdown-content");
 		for (var d = 0; d < dropdowns.length; d++) {
 			var openDropdown = dropdowns[d];
 			if (openDropdown.classList.contains('show')) {
@@ -61,29 +62,30 @@ window.onclick = function(e) {
 function onSignIn(googleUser) {
 	var id_token = googleUser.getAuthResponse().id_token;
 	var profile = googleUser.getBasicProfile();
-	setCookie(profile.getId(), profile.getImageUrl(), profile.getEmail(), "True");
-	/*var cook = "ID=" + profile.getId() + "; ImageURL="
-			+ profile.getImageUrl() + "; Email=" + profile.getEmail()
-			+ "; L_On=True"*/
+	setCookie(profile.getId(), profile.getImageUrl(), profile.getEmail(),
+			"True");
+	/*
+	 * var cook = "ID=" + profile.getId() + "; ImageURL=" +
+	 * profile.getImageUrl() + "; Email=" + profile.getEmail() + "; L_On=True"
+	 */
 	console.log("ID=" + getCookie("ID"));
 	console.log("ImageURL=" + getCookie("ImageURL"));
 	console.log("Email=" + getCookie("Email"));
 	console.log("L_On=" + getCookie("L_On"));
 	console.log(profile.getEmail());
-	var greeter ="Welcome to Living Arcade, "+ profile.getName();
+	var greeter = "Welcome to Living Arcade, " + profile.getName();
 	console.log(greeter);
-	document.getElementById("MyWelcome").innerHTML=greeter; 
+	document.getElementById("MyWelcome").innerHTML = greeter;
 	MyChecker();
 }
 
 function signOut() {
 	var auth2 = gapi.auth2.getAuthInstance();
-	auth2.signOut().then(
-			function() {
-				document.cookie = "L_On=False;";
-				console.log(document.cookie);
-				MyChecker();
-			});
+	auth2.signOut().then(function() {
+		document.cookie = "L_On=False;";
+		console.log(document.cookie);
+		MyChecker();
+	});
 }
 function IsSignedIn() {
 	var S_on = getCookie("L_On");
@@ -94,4 +96,16 @@ function IsSignedIn() {
 		console.log("boo");
 		return false;
 	}
+}
+
+function rateGame(gameID) {
+	var ratedGame = getCookie(gameID)
+	if (ratedGame == "True") {
+		return false;
+	} else {
+		var cookieString = gameID + "=True";
+		document.cookie = cookieString;
+		return true;
+	}
+
 }

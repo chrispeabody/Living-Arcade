@@ -7,6 +7,11 @@ function pongDirect() {
 
 	}
 
+function gameDirect() {
+	document.location.href = "GameDirect";
+
+}
+
 var main = function() {
 	$('#linkHome').click(function() {
 		window.location = "index.jsp";

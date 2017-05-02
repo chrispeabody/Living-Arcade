@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class PongDirect
+ * Servlet implementation class GameDirect
  */
-@WebServlet("/PongDirect")
-public class PongDirect extends HttpServlet {
+@WebServlet("/GameDirect")
+public class GameDirect extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PongDirect() {
+    public GameDirect() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +27,7 @@ public class PongDirect extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("Games/pongHTML/pong.jsp").forward(request, response);
+		request.getRequestDispatcher("Games/Game1HTML/livingGame.jsp").forward(request, response);
 	}
 
 	/**
