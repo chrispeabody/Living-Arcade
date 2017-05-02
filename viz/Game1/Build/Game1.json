@@ -1,0 +1,9 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "Game1.data.unityweb",
+"asmCodeUrl": "Game1.asm.code.unityweb",
+"asmMemoryUrl": "Game1.asm.memory.unityweb",
+"asmFrameworkUrl": "Game1.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#222C36"
+}
