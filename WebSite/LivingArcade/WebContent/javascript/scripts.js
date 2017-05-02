@@ -4,12 +4,12 @@
 
 function changeElement1(elementID) {
 	var x=document.getElementById(elementID);
-	x.classList.toggle("show");
+	x.style.display="none";
 }
 
 function changeElement2(elementID){
 	var x=document.getElementById(elementID);
-	x.classList.toggle("show");
+	x.style.display="block";
 }
 
 function getCookie(cname) {
